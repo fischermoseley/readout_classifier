@@ -17,6 +17,7 @@ def get_parameters(num_sites=1, num_fock=2):
     p.kappa = 2*p.unit
     p.Delta_1 = 0.
     p.epsilon_1 = 0.35*p.unit
+    p.gamma = 0.01*p.unit
 
     p.solver = 'mesolve'
     return p
@@ -26,7 +27,7 @@ def get_collapse_operators(p, ops):
 
     for k in range(p.num_sites):
         c_ops.append(np.sqrt(p.kappa)*ops.a[k])
-        c_ops.append(np.sqrt(p.kappa/5)*ops.Sm[k])
+        c_ops.append(np.sqrt(p.gamma)*ops.Sm[k])
 
     return c_ops
 
@@ -68,7 +69,7 @@ def get_initial_state(p, state_qb):
             op_.append(qutip.tensor(psi_c, ket_exc))
         state_exc = qutip.ket2dm(qutip.tensor(op_))
 
-        delta = 0.01
+        delta = 0.0001
         return (1-delta)*state_gnd + delta*state_exc
 
     elif state_qb=='-z_tilde':
@@ -88,7 +89,7 @@ def get_initial_state(p, state_qb):
             op_.append(qutip.tensor(psi_c, ket_exc))
         state_exc = qutip.ket2dm(qutip.tensor(op_))
 
-        delta = 0.01
+        delta = 0.0001
         return (1-delta)*state_exc + delta*state_gnd
 
     elif state_qb=='arb':
