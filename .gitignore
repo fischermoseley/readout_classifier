@@ -1,2 +1,3 @@
 datasets/*
 MLP_model/*
+__pycache__/*
